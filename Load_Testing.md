@@ -304,8 +304,52 @@ http_req_failed: [`rate<=0.05`]
 ```
 Odsetek niepowodzeń będzie mniejszy bądź równy 0.05%
 
+## Zrobienie zaptania `POST` gdzie przekazywane są w formacie JSON jakieś `body`. 
+W tym wypadku jest to POST 
 
+login: "test",
 
+ password: "password"
+
+```
+export function startAuthorization () {
+        const url = 'https://httpbin.org/post';
+        const payload = JSON.stringify({
+            login: "test",
+            password: "password"
+    
+        })
+```
+## Tworzony jest parametr przekazujący `headers`
+
+```
+const params = {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }
+```
+## Weryfikacja czy status code jest 200 i czy `body` zawiera "test"
+```
+check(res, {
+            'status code is 200': (r) => r.status == 200,
+            'body include login': (r) => r.body.includes("test")
+        })
+```
+![Alt text](<test 5a.png>)
+
+## Zapytanie `GET`, które zwraca jako zasób listę wszystkich użytkowników 
+Sprawdza bazę danych użytkowników czy status code jest 200 i czy body lenght obiekty jest większe od 0 czyli czy jakieś dane zostały zwrócone 
+```
+export function getUsers() {
+        const res = http.get('http://jsonplaceholder.typicode.com/users')
+        check(res, {
+            'status code is 200': (r) => r.status == 200,
+            'body is includes': (r) => r.body.length > 0
+        })
+```
+
+## Rezultat testu obciążeniowego
 
 
 ![Alt text](<test 5.png>)
