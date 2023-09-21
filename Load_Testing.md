@@ -16,19 +16,29 @@ export default function () {
 }
 ```
 
-
+![Alt text](<test 1.png>)
 
 ### Test 2 
 
 - 10 wirtualnych użytkowników
 - Test wykonany lokalnie
 - Jedna iteracja
-- Czas trwania testu 10 sekund
+- Czas trwania testu 5 sekund
 
 ```
-k6 run --vus 10 --duration 30s script.js
-```
+import http from 'k6/http';
+import { sleep } from 'k6';
+export const options = {
+  vus: 10,
+  duration: '5s',
+};
+export default function () {
+  http.get('http://test.k6.io');
+  sleep(1);
+}
 
+```
+![Alt text](<test 2-1.png>)
 
 
 
